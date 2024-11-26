@@ -3,7 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
 import { FaGithub, FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
-import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiJavascript } from 'react-icons/si';
+import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer,SiJavascript } from 'react-icons/si';
+import { 
+  BiLineChart 
+} from 'react-icons/bi'; 
 
 const ProjectCard = ({ project, darkMode }) => (
   <motion.div
@@ -80,7 +83,7 @@ const Projects = () => {
       title: 'Agriguard',
       description: 'Voice-controlled mobile app for Indian farmers providing agricultural news, weather updates, and product recommendations.',
       category: 'web',
-      tech: [SiNodedotjs, SiPostgresql, SiJavascript],
+      tech: [SiReact,SiTensorflow, SiPython, BiLineChart],
       github: 'https://github.com/ESR-style/agriguard',
       demo: 'https://github.com/ESR-style/agriguard'
     },
@@ -99,7 +102,15 @@ const Projects = () => {
       tech: [SiReact, SiNodedotjs, SiPostgresql],
       github: 'https://github.com/ESR-style/expense-tracker',
       demo: 'https://expense-tracker-ochre-nine-55.vercel.app/'
-    }
+    },
+    {
+      title: 'Finance Dashboard Template',
+      description: 'Modern finance tracking dashboard template with interactive charts, dark/light mode, and smooth animations. Features responsive design and reusable components.',
+      category: 'web',
+      tech: [SiReact, SiFramer, BiLineChart],
+      github: 'https://github.com/ESR-style/finance-template',
+      demo: 'https://finance-template-ruddy.vercel.app/'
+    },
   ];
 
   const categories = [

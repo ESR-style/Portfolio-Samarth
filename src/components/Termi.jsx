@@ -72,9 +72,7 @@ const Termi = ({ isOpen, onClose }) => {
     description: 'About me',
     execute: () => ({
       output: `> Samarth A.K
-Full Stack Developer
-Passionate about creating elegant solutions through clean, efficient code.
-Currently focused on web development and AI/ML.`
+Hey there! 👋 I’m a developer passionate about leveraging technology for social impact. Whether it’s building web apps, exploring AI, or crafting immersive games, I aim to create solutions that make a difference. I’m driven by a vision to simplify lives, empower communities, and tackle real-world challenges through innovation. Let’s connect and turn meaningful ideas into reality!`
     })
   },
 
@@ -123,7 +121,16 @@ Email: esrsamarth@gmail.com`
     })
   },
 
-
+  ls: {
+    description: 'List available pages',
+    execute: () => ({
+      output: `Available pages:
+- home
+- projects
+- skills
+- contact`
+    })
+  },
   cd: {
     description: 'Navigate to a page',
     execute: (args) => {
