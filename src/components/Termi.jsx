@@ -36,7 +36,11 @@ const Termi = ({ isOpen, onClose }) => {
       inputRef.current?.focus();
     }
   }, [isOpen]);
-
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
   const commands = {
     help: {
       description: 'List all available commands',
@@ -180,17 +184,26 @@ Instagram: https://www.instagram.com/samarth.a.k`
           />
 
 <motion.div
-  initial={{ opacity: 0, scale: 0.95, x: position.x, y: position.y }}
-  animate={{ opacity: 1, scale: 1, x: position.x, y: position.y }}
-  exit={{ opacity: 0, scale: 0.95 }}
+  initial={{ 
+    opacity: 0, 
+    scale: 0.95,
+    y: -100 // Increased negative value to move up
+  }}
+  animate={{ 
+    opacity: 1, 
+    scale: 1,
+    y: -50  // Keep it slightly elevated
+  }}
+  exit={{ 
+    opacity: 0, 
+    scale: 0.95,
+    y: 50 
+  }}
   transition={{ type: "spring", damping: 20, stiffness: 300 }}
   drag
   dragControls={dragControls}
   dragMomentum={false}
-  onDragEnd={(event, info) => {
-    setPosition({ x: position.x + info.offset.x, y: position.y + info.offset.y });
-  }}
-  className="fixed
+  className="fixed left-[45%] top-[45%] -translate-x-1/2 -translate-y-1/2
     w-[90vw] md:w-[80vw] lg:w-[800px]
     h-[80vh] md:h-[70vh] lg:h-[600px]
     max-w-[800px] max-h-[600px]
