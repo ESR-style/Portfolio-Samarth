@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { FaTerminal, FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Termi = ({ isOpen, onClose }) => {
   const { darkMode } = useTheme();
@@ -12,7 +13,14 @@ const Termi = ({ isOpen, onClose }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const inputRef = useRef(null);
   const dragControls = useDragControls();
+  const navigate = useNavigate();
 
+  const pages = {
+    '/': 'home',
+    '/projects': 'projects',
+    '/skills': 'skills',
+    '/contact': 'contact'
+  };
   useEffect(() => {
     if (isOpen) {
       // Get viewport dimensions
@@ -41,95 +49,186 @@ const Termi = ({ isOpen, onClose }) => {
       inputRef.current?.focus();
     }
   }, [isOpen]);
+
   const commands = {
-    help: {
-      description: 'List all available commands',
-      execute: () => ({
-        output: `Available commands:
+  help: {
+    description: 'List all available commands',
+    execute: () => ({
+      output: `Available commands:
   help     - Show this help message
-  about    - About me
-  skills   - My technical skills
+  ls       - List available pages
+  cd       - Navigate to a page (e.g., cd projects)
+  about    - Display information about me
+  skills   - List technical skills
   projects - View my projects
-  contact  - Get contact information
-  clear    - Clear terminal
-  social   - Social media links`
-      })
-    },
-    about: {
-      description: 'About me',
-      execute: () => ({
-        output: `> Samarth A.K
+  contact  - Show contact information
+  social   - Display social media links
+  clear    - Clear terminal history
+  exit     - Close terminal window`
+    })
+  },
+
+  about: {
+    description: 'About me',
+    execute: () => ({
+      output: `> Samarth A.K
 Full Stack Developer
 Passionate about creating elegant solutions through clean, efficient code.
 Currently focused on web development and AI/ML.`
-      })
-    },
-    skills: {
-      description: 'List technical skills',
-      execute: () => ({
-        output: `Technical Skills:
+    })
+  },
+
+  skills: {
+    description: 'List technical skills',
+    execute: () => ({
+      output: `Technical Skills:
 • Frontend: React, Next.js, HTML5, CSS3, Tailwind
 • Backend: Node.js, Express
 • Database: PostgreSQL
 • AI/ML: TensorFlow, Python
 • Other: Git, RESTful APIs, Agile`
-      })
-    },
-    projects: {
-      description: 'View projects',
-      execute: () => ({
-        output: `Projects:
+    })
+  },
+
+  projects: {
+    description: 'View projects',
+    execute: () => ({
+      output: `Projects:
 1. Agriguard - Agriculture App
-2. Plant Disease Detector - AI/ML Project
-3. Expense Tracker - Full Stack App`
-      })
-    },
-    contact: {
-      description: 'Get contact information',
-      execute: () => ({
-        output: `Contact Information:
-Email: esrsamarth@gmail.com`
-      })
-    },
-    clear: {
-      description: 'Clear terminal',
-      execute: () => {
-        setHistory([]);
-        return { output: '' };
-      }
-    },
-    social: {
-      description: 'Social media links',
-      execute: () => ({
-        output: `Social Media:
+   Voice-controlled mobile app for farmers
+   
+2. Plant Disease Detector
+   AI-powered system for plant disease detection
+   
+3. Expense Tracker
+   Full-stack expense management application`
+    })
+  },
+
+  social: {
+    description: 'Social media links',
+    execute: () => ({
+      output: `Social Media:
 GitHub: https://github.com/ESR-style
 LinkedIn: https://www.linkedin.com/in/samarth-a-k-463366248/
 Instagram: https://www.instagram.com/samarth.a.k`
-      })
+    })
+  },
+
+  contact: {
+    description: 'Get contact information',
+    execute: () => ({
+      output: `Contact Information:
+Email: esrsamarth@gmail.com`
+    })
+  },
+
+
+  cd: {
+    description: 'Navigate to a page',
+    execute: (args) => {
+      if (!args || args.length === 0) {
+        return { output: 'Usage: cd <page>\nExample: cd projects' };
+      }
+  
+      const pages = {
+        'home': '/',
+        'projects': '/projects',
+        'skills': '/skills',
+        'contact': '/contact'
+      };
+  
+      const destination = args[0].toLowerCase();
+  
+      // Handle special case for home/root
+      if (destination === '/' || destination === '~') {
+        navigate('/');
+        return { output: 'Navigating to home...' };
+      }
+  
+      // Check if page exists
+      if (pages.hasOwnProperty(destination)) {
+        navigate(pages[destination]);
+        return { output: `Navigating to ${destination}...` };
+      }
+  
+      return { 
+        output: `Directory not found: ${destination}\nAvailable pages:\n${
+          Object.keys(pages).join('\n')
+        }`
+      };
     }
-  };
+  },
+
+  pwd: {
+    description: 'Show current page',
+    execute: () => ({
+      output: `Current location: ${window.location.pathname || '/'}`
+    })
+  },
+
+  clear: {
+    description: 'Clear terminal',
+    execute: () => null
+  },
+
+  exit: {
+    description: 'Close terminal',
+    execute: () => {
+      onClose();
+      return { output: 'Closing terminal...' };
+    }
+  },
+
+  theme: {
+    description: 'Toggle theme',
+    execute: () => {
+      toggleTheme();
+      return { output: `Switched to ${darkMode ? 'light' : 'dark'} theme` };
+    }
+  }
+};
 
   const handleCommand = (cmd) => {
     const args = cmd.trim().split(' ');
     const command = args[0].toLowerCase();
-
+  
     if (commands[command]) {
       const result = commands[command].execute(args.slice(1));
-      return result.output;
+      return result.output; // Ensure we return the output string
     }
+    
     return `Command not found: ${command}. Type 'help' for available commands.`;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-
-    const output = handleCommand(input);
-    setHistory([...history, { type: 'input', content: input }, { type: 'output', content: output }]);
+  
+    const command = input.trim().toLowerCase();
+    
+    if (command === 'clear') {
+      setHistory([]);
+      setCommandHistory([]);
+      setHistoryIndex(-1);
+      setInput('');
+      return;
+    }
+  
+    const result = handleCommand(input);
+    // Extract output string from result object
+    const outputText = result?.output || result;
+  
+    setHistory([
+      ...history, 
+      { type: 'input', content: input }, 
+      { type: 'output', content: outputText }
+    ]);
     setCommandHistory([input, ...commandHistory]);
     setInput('');
     setHistoryIndex(-1);
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
