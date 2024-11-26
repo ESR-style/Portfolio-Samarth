@@ -6,6 +6,9 @@ import { ThemeProvider } from './context/ThemeContext';
 import Home from './pages/Home.jsx';
 import Projects from './pages/Projects.jsx';
 import './index.css';
+import Skills from './pages/Skills.jsx';
+import Contact from './pages/Contact.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -25,7 +28,8 @@ const router = createBrowserRouter([
     element: <Contact />,
   },
   {
-    
+    path: "/projects",
+    element: <Projects />,
   }
 ]);
 

@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaSun, FaMoon, FaBars, FaTerminal } from 'react-icons/fa';
-import { GiRetroController } from 'react-icons/gi';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
   const { darkMode, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const menuItems = ['HOME', 'PROJECTS', 'SKILLS', 'CONTACT'];
+  const location = useLocation();
+  
+  const menuItems = [
+    { name: 'HOME', path: '/' },
+    { name: 'PROJECTS', path: '/projects' },
+    { name: 'SKILLS', path: '/skills' },
+    { name: 'CONTACT', path: '/contact' }
+  ];
+
+  useEffect(() => {
+    const currentIndex = menuItems.findIndex(item => item.path === location.pathname);
+    setActiveIndex(currentIndex !== -1 ? currentIndex : 0);
+  }, [location]);
 
   return (
     <>
-      {/* Mobile Toggle */}
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
@@ -21,7 +32,6 @@ const Navbar = () => {
         <FaTerminal className={darkMode ? 'text-green-400' : 'text-indigo-500'} />
       </motion.button>
 
-      {/* Terminal Sidebar */}
       <motion.aside
         initial={false}
         animate={{ 
@@ -31,7 +41,6 @@ const Navbar = () => {
           ${darkMode ? 'bg-black' : 'bg-gray-900'} 
           border-r ${darkMode ? 'border-green-500/20' : 'border-indigo-500/20'}`}
       >
-        {/* CRT Overlay */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20" />
           <div className="absolute inset-0" style={{
@@ -41,7 +50,6 @@ const Navbar = () => {
         </div>
 
         <div className="relative h-full p-6 flex flex-col pt-16 md:pt-6">
-          {/* Terminal Header */}
           <div className={`font-mono mb-8 ${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
             <div className="flex items-center gap-2 mb-2">
               <FaTerminal />
@@ -52,36 +60,39 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Navigation */}
           <div className="flex-1 font-mono">
             {menuItems.map((item, index) => (
-              <motion.button
-                key={item}
-                whileHover={{ x: 10 }}
-                className={`w-full text-left mb-4 ${
-                  darkMode ? 'text-green-400' : 'text-indigo-400'
-                } opacity-70 hover:opacity-100`}
-                onMouseEnter={() => setActiveIndex(index)}
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
               >
-                <div className="flex items-center">
-                  <span className="mr-2">{`>`}</span>
-                  <span>{`cd ./`}{item.toLowerCase()}</span>
-                </div>
-                {activeIndex === index && (
-                  <motion.div
-                    layoutId="cursor"
-                    className={`w-2 h-4 mt-1 ${
-                      darkMode ? 'bg-green-400' : 'bg-indigo-400'
-                    }`}
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                  />
-                )}
-              </motion.button>
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className={`w-full text-left mb-4 ${
+                    darkMode ? 'text-green-400' : 'text-indigo-400'
+                  } opacity-70 hover:opacity-100`}
+                  onMouseEnter={() => setActiveIndex(index)}
+                >
+                  <div className="flex items-center">
+                    <span className="mr-2">{`>`}</span>
+                    <span>{`cd ./`}{item.name.toLowerCase()}</span>
+                  </div>
+                  {activeIndex === index && (
+                    <motion.div
+                      layoutId="cursor"
+                      className={`w-2 h-4 mt-1 ${
+                        darkMode ? 'bg-green-400' : 'bg-indigo-400'
+                      }`}
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                    />
+                  )}
+                </motion.div>
+              </Link>
             ))}
           </div>
 
-          {/* Theme Toggle */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             onClick={toggleTheme}
@@ -97,7 +108,6 @@ const Navbar = () => {
         </div>
       </motion.aside>
 
-      {/* Mobile Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
