@@ -1,12 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram,FaTerminal } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
+import Termi from '../components/Termi';
+import { useState } from 'react';
 
 const Home = () => {
   const { darkMode } = useTheme();
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -31,7 +35,18 @@ const Home = () => {
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-900'}`}>
       <Navbar />
-      
+      <motion.button
+    onClick={() => setIsTerminalOpen(true)}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className={`fixed bottom-4 right-4 p-3 rounded-full ${
+      darkMode 
+        ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30' 
+        : 'bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30'
+    }`}
+  >
+    <FaTerminal size={20} />
+  </motion.button>
       {/* Main Content */}
       <motion.div
         variants={containerVariants}
@@ -149,7 +164,7 @@ const Home = () => {
           </Link>
         </div>
       </motion.div>
-
+      <Termi isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
       {/* Add this to your global CSS */}
       <style jsx global>{`
         @keyframes scan {
