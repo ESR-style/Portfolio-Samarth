@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
-import { FaGithub, FaExternalLinkAlt, FaSearch } from 'react-icons/fa';
-import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer,SiJavascript } from 'react-icons/si';
-import { 
-  BiLineChart 
-} from 'react-icons/bi'; 
+import { FaGithub, FaExternalLinkAlt, FaTerminal } from 'react-icons/fa';
+import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer, SiJavascript } from 'react-icons/si';
+import { BiLineChart } from 'react-icons/bi';
 
 const ProjectCard = ({ project, darkMode }) => (
   <motion.div
@@ -81,7 +79,7 @@ const Projects = () => {
   const projects = [
     {
       title: 'Agriguard',
-      description: 'Voice-controlled mobile app for Indian farmers providing agricultural news, weather updates, and product recommendations.',
+      description: 'A web application for farmers that provides real time irrigation requirement flood alerts and copr detection along with much more features using nasa data',
       category: 'web',
       tech: [SiReact,SiTensorflow, SiPython, BiLineChart],
       github: 'https://github.com/ESR-style/agriguard',
@@ -113,10 +111,11 @@ const Projects = () => {
     },
   ];
 
+
   const categories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'web', name: 'Web Development' },
-    { id: 'ai', name: 'AI/ML' }
+    { id: 'all', name: 'all' },
+    { id: 'web', name: 'web' },
+    { id: 'ai', name: 'ai' }
   ];
 
   const filteredProjects = projects.filter(project => {
@@ -130,90 +129,136 @@ const Projects = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-900'}`}>
       <Navbar />
       
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="container mx-auto px-6 pt-20 md:pt-24 md:pl-80"
-      >
+      <div className="container mx-auto px-6 pt-20 md:pt-24 md:pl-80">
         <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`rounded-lg border ${
+              darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
+            } overflow-hidden`}
           >
-            <h1 className={`text-3xl font-bold mb-4 ${
-              darkMode ? 'text-green-400' : 'text-indigo-400'
+            {/* Terminal Header */}
+            <div className={`p-3 ${
+              darkMode ? 'bg-green-500/10' : 'bg-indigo-500/10'
+            } backdrop-blur-sm border-b ${
+              darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
             }`}>
-              Projects
-            </h1>
-            <p className={`${
-              darkMode ? 'text-green-300/70' : 'text-indigo-300/70'
-            }`}>
-              Explore my recent projects and experiments
-            </p>
-          </motion.div>
-
-          <div className="mb-8 space-y-4">
-            {/* Search Bar */}
-            <div className="relative">
-              <FaSearch className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${
-                darkMode ? 'text-green-400' : 'text-indigo-400'
-              }`} />
-              <input
-                type="text"
-                placeholder="Search projects..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-12 pr-4 py-3 rounded-lg ${
-                  darkMode 
-                    ? 'bg-green-500/5 text-green-400 placeholder-green-400/50' 
-                    : 'bg-indigo-500/5 text-indigo-400 placeholder-indigo-400/50'
-                } border ${
-                  darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
-                } focus:outline-none focus:ring-1 focus:ring-opacity-50 ${
-                  darkMode ? 'focus:ring-green-500' : 'focus:ring-indigo-500'
-                }`}
-              />
+              <div className="flex items-center gap-2">
+                <FaTerminal className={darkMode ? 'text-green-400' : 'text-indigo-400'} />
+                <span className={`text-sm font-mono ${
+                  darkMode ? 'text-green-400' : 'text-indigo-400'
+                }`}>
+                  projects.terminal
+                </span>
+              </div>
             </div>
 
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
-                <button
-                  key={category.id}
-                  onClick={() => setFilter(category.id)}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    filter === category.id
-                      ? darkMode 
-                        ? 'bg-green-500/20 text-green-400' 
-                        : 'bg-indigo-500/20 text-indigo-400'
-                      : darkMode
-                        ? 'bg-green-500/5 text-green-400/70 hover:bg-green-500/10' 
-                        : 'bg-indigo-500/5 text-indigo-400/70 hover:bg-indigo-500/10'
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </div>
-          </div>
+            {/* Terminal Content */}
+            <div className="p-6 font-mono bg-black/20 backdrop-blur-sm">
+              {/* Command Input */}
+              <div className={`mb-8 ${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
+                <div className="mb-4">{`> projects.filter --category "${filter}" ${searchQuery ? `--search "${searchQuery}"` : ''}`}</div>
+                
+                {/* Filters */}
+                <div className="ml-4 flex flex-wrap gap-2 mb-6">
+                  {categories.map(category => (
+                    <motion.button
+                      key={category.id}
+                      onClick={() => setFilter(category.id)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-3 py-1 rounded-lg ${
+                        filter === category.id
+                          ? darkMode 
+                            ? 'bg-green-500/20 text-green-400' 
+                            : 'bg-indigo-500/20 text-indigo-400'
+                          : darkMode
+                            ? 'bg-green-500/5 text-green-400/70 hover:bg-green-500/10' 
+                            : 'bg-indigo-500/5 text-indigo-400/70 hover:bg-indigo-500/10'
+                      }`}
+                    >
+                      {`--${category.name}`}
+                    </motion.button>
+                  ))}
+                </div>
 
-          <motion.div
-            layout
-            className="grid gap-6 md:grid-cols-2"
-          >
-            <AnimatePresence>
-              {filteredProjects.map(project => (
-                <ProjectCard 
-                  key={project.title}
-                  project={project}
-                  darkMode={darkMode}
+                {/* Search */}
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search projects..."
+                  className={`w-full px-4 py-2 rounded-lg ${
+                    darkMode 
+                      ? 'bg-green-500/5 text-green-400 placeholder-green-400/50' 
+                      : 'bg-indigo-500/5 text-indigo-400 placeholder-indigo-400/50'
+                  } border ${
+                    darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
+                  } focus:outline-none`}
                 />
-              ))}
-            </AnimatePresence>
+              </div>
+
+              {/* Projects Output */}
+              <div className={`${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
+                <div className="mb-4">{`> projects.list()`}</div>
+                <div className="ml-4 space-y-6">
+                  <AnimatePresence>
+                    {filteredProjects.map((project, index) => (
+                      <motion.div
+                        key={project.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ delay: index * 0.1 }}
+                        className={`p-4 rounded-lg ${
+                          darkMode ? 'bg-green-500/5' : 'bg-indigo-500/5'
+                        } border ${
+                          darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
+                        }`}
+                      >
+                        <h3 className="text-lg font-bold mb-2">{project.title}</h3>
+                        <p className={`mb-4 ${
+                          darkMode ? 'text-green-300/70' : 'text-indigo-300/70'
+                        }`}>
+                          {project.description}
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-4 items-center">
+                          <div className="flex gap-2">
+                            {project.tech.map((Icon, i) => (
+                              <Icon key={i} className="text-xl" />
+                            ))}
+                          </div>
+                          
+                          <div className="flex gap-3 ml-auto">
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:opacity-80"
+                            >
+                              <FaGithub size={20} />
+                            </a>
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:opacity-80"
+                            >
+                              <FaExternalLinkAlt size={18} />
+                            </a>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
