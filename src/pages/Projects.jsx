@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import { FaGithub, FaExternalLinkAlt, FaTerminal } from 'react-icons/fa';
 import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer, SiJavascript } from 'react-icons/si';
 import { BiLineChart } from 'react-icons/bi';
+import { BsFillMicFill } from 'react-icons/bs';
 
 const ProjectCard = ({ project, darkMode }) => (
   <motion.div
@@ -78,6 +79,14 @@ const Projects = () => {
 
   const projects = [
     {
+      title: 'Rytamitra',
+      description: 'A finance app for farmers, offering expense tracking, savings management, and AI-driven insights with voice control in Kannada to simplify financial planning.',
+      category: ['web', 'ai'],
+      tech: [SiReact, SiNodedotjs, SiJavascript, BsFillMicFill],
+      github: 'https://github.com/ESR-style/RytaMitra',
+      demo: 'https://finathon.vercel.app/'
+    },
+    {
       title: 'Agriguard',
       description: 'A web application for farmers that provides real time irrigation requirement flood alerts and copr detection along with much more features using nasa data',
       category: 'web',
@@ -119,7 +128,8 @@ const Projects = () => {
   ];
 
   const filteredProjects = projects.filter(project => {
-    const matchesCategory = filter === 'all' || project.category === filter;
+    const matchesCategory = filter === 'all' || (Array.isArray(project.category) ? 
+      project.category.includes(filter) : project.category === filter);
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
