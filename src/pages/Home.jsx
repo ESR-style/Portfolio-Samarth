@@ -61,7 +61,11 @@ const Home = () => {
                   </div>
                   <div className="mb-4">
                     <span className="opacity-70">{`role: `}</span>
-                    <span>Full Stack Developer & AI Enthusiast</span>
+                    <span>Full Stack Developer | ML Engineer | Ethical Hacker</span>
+                  </div>
+                  <div className="mb-4">
+                    <span className="opacity-70">{`specialization: `}</span>
+                    <span>Bug Bounty Hunter & Red Team Operations</span>
                   </div>
                   <div className="mb-4">
                     <span className="opacity-70">{`status: `}</span>
@@ -74,9 +78,10 @@ const Home = () => {
               <div className={`mb-8 ${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
                 <div className="mb-2">{`> user.about`}</div>
                 <div className="ml-4">
-                  I'm a passionate developer exploring the realms of web dev, AI, and game dev. 
-                  I create innovative solutions and love turning ideas into reality. 
-                  Let's build something awesome together!
+                  I'm a passionate developer with expertise in web development, machine learning, and cybersecurity. 
+                  As a manual penetration tester and bug bounty hunter, I specialize in offensive security and red team operations. 
+                  I create innovative solutions, secure applications, and love turning ideas into reality while keeping them safe. 
+                  Let's build something awesome and secure together!
                 </div>
               </div>
 

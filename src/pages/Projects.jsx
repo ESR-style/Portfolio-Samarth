@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
-import { FaGithub, FaExternalLinkAlt, FaTerminal } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaTerminal, FaShieldAlt } from 'react-icons/fa';
 import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer, SiJavascript } from 'react-icons/si';
 import { BiLineChart } from 'react-icons/bi';
 import { BsFillMicFill } from 'react-icons/bs';
@@ -79,6 +79,14 @@ const Projects = () => {
 
   const projects = [
     {
+      title: 'Surakshamitra',
+      description: 'Behaviour-based authentication for banking apps with just 7 dataset and along with cognitive intelligence for enhanced security.',
+      category: ['security', 'ai'],
+      tech: [SiPython, SiTensorflow, BiLineChart],
+      github: 'https://github.com/ESR-style/SurakshaMitra',
+      demo: '#'
+    },
+    {
       title: 'Rytamitra',
       description: 'A finance app for farmers, offering expense tracking, savings management, and AI-driven insights with voice control in Kannada to simplify financial planning.',
       category: ['web', 'ai'],
@@ -88,9 +96,9 @@ const Projects = () => {
     },
     {
       title: 'Agriguard',
-      description: 'A web application for farmers that provides real time irrigation requirement flood alerts and copr detection along with much more features using nasa data',
+      description: 'A web application for farmers that provides real time irrigation requirement flood alerts and crop detection along with much more features using NASA data',
       category: 'web',
-      tech: [SiReact,SiTensorflow, SiPython, BiLineChart],
+      tech: [SiReact, SiTensorflow, SiPython, BiLineChart],
       github: 'https://github.com/ESR-style/agriguard',
       demo: 'https://github.com/ESR-style/agriguard'
     },
@@ -124,7 +132,8 @@ const Projects = () => {
   const categories = [
     { id: 'all', name: 'all' },
     { id: 'web', name: 'web' },
-    { id: 'ai', name: 'ai' }
+    { id: 'ai', name: 'ai' },
+    { id: 'security', name: 'security' }
   ];
 
   const filteredProjects = projects.filter(project => {
