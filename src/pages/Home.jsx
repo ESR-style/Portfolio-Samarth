@@ -56,7 +56,7 @@ const Home = () => {
                 <div className="ml-4">
                   <div className="mb-4">
                     <span className="opacity-70">{`name: `}</span>
-                    <span className="text-2xl font-bold">Samarth A.K</span>
+                    <span className="text-2xl font-bold">Samarth</span>
                     <BlinkingCursor />
                   </div>
                   <div className="mb-4">
