@@ -62,7 +62,7 @@ const Home = () => {
                   <div className="mb-4">
                     <span className="opacity-70">{`role: `}</span>
                     <span>Full Stack Developer | ML Engineer | Ethical Hacker</span>
-                  </div>
+                  </div> 
                   <div className="mb-4">
                     <span className="opacity-70">{`specialization: `}</span>
                     <span>Bug Bounty Hunter & Red Team Operations</span>
