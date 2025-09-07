@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
 import { FaGithub, FaExternalLinkAlt, FaTerminal, FaShieldAlt } from 'react-icons/fa';
-import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer, SiJavascript } from 'react-icons/si';
+import { SiTensorflow, SiPostgresql, SiPython, SiNodedotjs, SiReact, SiFramer, SiJavascript, SiTypescript } from 'react-icons/si';
 import { BiLineChart } from 'react-icons/bi';
 import { BsFillMicFill } from 'react-icons/bs';
 
@@ -78,13 +78,14 @@ const Projects = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const projects = [
+    
     {
       title: 'Surakshamitra',
       description: 'Behaviour-based authentication for banking apps with just 7 dataset and along with cognitive intelligence for enhanced security.',
       category: ['security', 'ai'],
       tech: [SiPython, SiTensorflow, BiLineChart],
       github: 'https://github.com/ESR-style/SurakshaMitra',
-      demo: '#'
+      demo: 'https://github.com/ESR-style/SurakshaMitra'
     },
     {
       title: 'Rytamitra',
@@ -93,6 +94,14 @@ const Projects = () => {
       tech: [SiReact, SiNodedotjs, SiJavascript, BsFillMicFill],
       github: 'https://github.com/ESR-style/RytaMitra',
       demo: 'https://finathon.vercel.app/'
+    },
+     {
+      title: 'StyleGrid',
+      description: 'Modern React + TypeScript data grid (AG Grid inspired) with resizing, multi-sort, filters, grouping, pivoting, aggregations, virtual scroll, exports & custom cells. Open-source WIP.',
+      category: 'web',
+      tech: [SiReact, SiTypescript, SiJavascript, SiFramer],
+      github: 'https://github.com/ESR-style/StyleGrid',
+      demo: 'https://github.com/ESR-style/StyleGrid'
     },
     {
       title: 'Agriguard',
