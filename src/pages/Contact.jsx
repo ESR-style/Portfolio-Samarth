@@ -34,7 +34,7 @@ const Contact = () => {
     {
       icon: <FaMapMarkerAlt />,
       label: 'Location',
-      value: 'India',
+      value: 'Mysuru, Karnataka, India',
       link: null
     }
   ];
