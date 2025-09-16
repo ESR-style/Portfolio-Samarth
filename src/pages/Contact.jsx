@@ -1,15 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
-import emailjs from '@emailjs/browser';
-import { FaTerminal } from 'react-icons/fa';
+import { FaTerminal, FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
   const { darkMode } = useTheme();
-  const form = useRef();
-  const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState('');
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,26 +24,41 @@ const Contact = () => {
     }
   };
 
-  const sendEmail = async (e) => {
-    e.preventDefault();
-    setSending(true);
-    setStatus('> Sending message...');
-
-    try {
-      await emailjs.sendForm(
-        'service_xcc5h0a', // Service ID in quotes
-        'template_9jym61j', // Template ID in quotes
-        form.current,
-        'Ix8Lw4ds0-z53MRan' // Public key in quotes
-      );
-      setStatus('> Message sent successfully!');
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      setStatus('> Error sending message. Please try again.');
-    } finally {
-      setSending(false);
+  const contactInfo = [
+    {
+      icon: <FaEnvelope />,
+      label: 'Email',
+      value: 'esrsamarth@gmail.com',
+      link: 'mailto:esrsamarth@gmail.com'
+    },
+    {
+      icon: <FaMapMarkerAlt />,
+      label: 'Location',
+      value: 'India',
+      link: null
     }
-  };
+  ];
+
+  const socialLinks = [
+    {
+      icon: <FaGithub />,
+      label: 'GitHub',
+      username: '@ESR-style',
+      url: 'https://github.com/ESR-style'
+    },
+    {
+      icon: <FaLinkedin />,
+      label: 'LinkedIn',
+      username: 'Samarth A.K',
+      url: 'https://www.linkedin.com/in/samarth-a-k-463366248/'
+    },
+    {
+      icon: <FaInstagram />,
+      label: 'Instagram',
+      username: '@samarth.a.k',
+      url: 'https://www.instagram.com/samarth.a.k'
+    }
+  ];
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-gray-900'}`}>
@@ -59,107 +70,110 @@ const Contact = () => {
         animate="visible"
         className="container mx-auto px-6 pt-20 md:pt-24 md:pl-80"
       >
-        <div className={`rounded-lg border ${
-          darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
-        } p-6 backdrop-blur-sm bg-black/20 max-w-2xl mx-auto`}>
-          
-          <motion.div variants={itemVariants} className="font-mono mb-8">
-            <span className={`${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
-              {`> system.contact.initialize()`}
-            </span>
-          </motion.div>
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Terminal Window */}
+          <motion.div
+            variants={itemVariants}
+            className={`rounded-lg border ${
+              darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
+            } overflow-hidden`}
+          >
+            {/* Terminal Header */}
+            <div className={`p-3 ${
+              darkMode ? 'bg-green-500/10' : 'bg-indigo-500/10'
+            } backdrop-blur-sm border-b ${
+              darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
+            }`}>
+              <div className="flex items-center gap-2">
+                <FaTerminal className={darkMode ? 'text-green-400' : 'text-indigo-400'} />
+                <span className={`text-sm font-mono ${
+                  darkMode ? 'text-green-400' : 'text-indigo-400'
+                }`}>
+                  contact.terminal
+                </span>
+              </div>
+            </div>
 
-          <form ref={form} onSubmit={sendEmail} className="space-y-6">
-            <motion.div variants={itemVariants}>
-              <label className={`block font-mono mb-2 ${
-                darkMode ? 'text-green-400' : 'text-indigo-400'
-              }`}>
-                {`> user.name`}
-              </label>
-              <input
-                type="text"
-                name="user_name"
-                required
-                className={`w-full bg-black/30 rounded-lg border ${
-                  darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
-                } p-3 font-mono text-sm ${
-                  darkMode ? 'text-green-300' : 'text-indigo-300'
-                } focus:outline-none focus:ring-1 ${
-                  darkMode ? 'focus:ring-green-500' : 'focus:ring-indigo-500'
-                }`}
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <label className={`block font-mono mb-2 ${
-                darkMode ? 'text-green-400' : 'text-indigo-400'
-              }`}>
-                {`> user.email`}
-              </label>
-              <input
-                type="email"
-                name="user_email"
-                required
-                className={`w-full bg-black/30 rounded-lg border ${
-                  darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
-                } p-3 font-mono text-sm ${
-                  darkMode ? 'text-green-300' : 'text-indigo-300'
-                } focus:outline-none focus:ring-1 ${
-                  darkMode ? 'focus:ring-green-500' : 'focus:ring-indigo-500'
-                }`}
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <label className={`block font-mono mb-2 ${
-                darkMode ? 'text-green-400' : 'text-indigo-400'
-              }`}>
-                {`> message.content`}
-              </label>
-              <textarea
-                name="message"
-                required
-                rows="6"
-                className={`w-full bg-black/30 rounded-lg border ${
-                  darkMode ? 'border-green-500/20' : 'border-indigo-500/20'
-                } p-3 font-mono text-sm ${
-                  darkMode ? 'text-green-300' : 'text-indigo-300'
-                } focus:outline-none focus:ring-1 ${
-                  darkMode ? 'focus:ring-green-500' : 'focus:ring-indigo-500'
-                }`}
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <button
-                type="submit"
-                disabled={sending}
-                className={`font-mono px-6 py-3 rounded-lg ${
-                  darkMode 
-                    ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30' 
-                    : 'bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
-              >
-                {sending ? '> Processing...' : '> send.message()'}
-              </button>
-            </motion.div>
-
-            {status && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={`font-mono text-sm ${
-                  status.includes('successfully')
-                    ? 'text-green-400'
-                    : status.includes('Error')
-                    ? 'text-red-400'
-                    : darkMode ? 'text-green-400' : 'text-indigo-400'
-                }`}
-              >
-                {status}
+            {/* Terminal Content */}
+            <div className="p-6 font-mono bg-black/20 backdrop-blur-sm">
+              <motion.div variants={itemVariants} className={`mb-8 ${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
+                <div className="mb-2">{`> system.contact.info`}</div>
+                <div className="ml-4">
+                  <div className="mb-4">
+                    <span className="opacity-70">{`name: `}</span>
+                    <span className="text-xl font-bold">Samarth A.K</span>
+                  </div>
+                </div>
               </motion.div>
-            )}
-          </form>
+
+              {/* Contact Information */}
+              <motion.div variants={itemVariants} className={`mb-8 ${darkMode ? 'text-green-400' : 'text-indigo-400'}`}>
+                <div className="mb-4">{`> contact.methods`}</div>
+                <div className="ml-4 space-y-4">
+                  {contactInfo.map((contact, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <span className="text-xl">{contact.icon}</span>
+                      <div>
+                        <span className="opacity-70">{contact.label}: </span>
+                        {contact.link ? (
+                          <a 
+                            href={contact.link}
+                            className="hover:underline hover:opacity-80"
+                          >
+                            {contact.value}
+                          </a>
+                        ) : (
+                          <span>{contact.value}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Social Links */}
+              <motion.div variants={itemVariants} className={darkMode ? 'text-green-400' : 'text-indigo-400'}>
+                <div className="mb-4">{`> social.networks`}</div>
+                <div className="ml-4 space-y-4">
+                  {socialLinks.map((social, index) => (
+                    <motion.div 
+                      key={index} 
+                      className="flex items-center gap-3"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <span className="text-xl">{social.icon}</span>
+                      <div>
+                        <span className="opacity-70">{social.label}: </span>
+                        <a
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline hover:opacity-80"
+                        >
+                          {social.username}
+                        </a>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Connect Message */}
+              <motion.div 
+                variants={itemVariants} 
+                className={`mt-8 p-4 rounded-lg ${
+                  darkMode ? 'bg-green-500/10 text-green-300' : 'bg-indigo-500/10 text-indigo-300'
+                }`}
+              >
+                <div className="mb-2">{`> message.connect`}</div>
+                <div className="ml-4 text-sm leading-relaxed">
+                  Feel free to reach out for collaborations, opportunities, or just to connect! 
+                  I'm always interested in discussing new projects, cybersecurity challenges, 
+                  or innovative development ideas. Let's build something awesome together! 
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
